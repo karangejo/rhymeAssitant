@@ -1,28 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import request from 'request';
+
+const baseUrl = 'https://api.datamuse.com/words?rel_rhy=';
+var obj = {};
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+        state = {
+                searchTarget: '',
+                rhymeObj: '',
+                display: false
+        }
+
+        getRhymes = (event) => {
+                event.preventDefault();
+                const url = baseUrl + this.state.searchTarget;
+                request(url, function(error,response,body){
+                        //console.log('error: ',error);
+                        //console.log('response: ', response && response.statusCode);
+                        //console.log('body: ',body);
+                        obj = JSON.parse(body);
+                        this.setState({rhymeObj:obj,display:true});
+                }.bind(this));
+                console.log("rhyme object: ", this.state.rhymeObj);
+        }
+
+        displayRhymes(){
+                const rhymeList = Object.keys(this.state.rhymeObj).map((item,index)=>{
+                        return <li key={index}>{this.state.rhymeObj[item].word}</li>;
+                });
+                return (
+                        <ul>
+                                {rhymeList}
+                        </ul>
+                )
+        }
+
+        render() {
+                return (
+                         <div className="App">
+                                <h1>Rhyme Assitant</h1>
+                                <form action="submit" onSubmit={this.getRhymes} >
+                                        <input type="text" onChange={event =>{this.setState({searchTarget: event.target.value})}} />
+                                        <button type="submit">Get Rhymes</button>
+                                </form>
+                                {this.state.display && this.displayRhymes()}
+                        </div>
+                );
+        }
 }
 
 export default App;

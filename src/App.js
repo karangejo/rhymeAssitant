@@ -126,18 +126,20 @@ class App extends Component {
 
         render() {
                 return (
-                        <div>
+                        <div style={{backgroundColor:"#eaeaea"}}>
                         <nav style={{backgroundColor:"#444444",height:100}}>
                          <div className="nav-wrapper">
-                                 <a style={{color:"#00d1cd"}} href="/" className="brand-logo">Rhyme Assitant</a>
+                                 <a style={{fontFamily:"'Bungee Shade',cursive",color:"#00d1cd",paddingLeft:"25px"}} href="/" className="brand-logo">Rhyme Assitant</a>
                          </div>
                         </nav>
-                        <form style={{backgroundColor:"#f30067",margin:0}} className="input-field" action="submit" onSubmit={this.getRhymes} >
-                                        <input type="text" style={{width:"70%",paddingLeft:25}} onChange={event =>{this.setState({searchTarget: event.target.value})}} />
+                        <form style={{textAlign:"center",backgroundColor:"#f30067",margin:0}} className="input-field" action="submit" onSubmit={this.getRhymes} >
+                                        <input type="text" style={{textAlign:"center",width:"70%",paddingLeft:25}} onChange={event =>{this.setState({searchTarget: event.target.value})}} />
+                                        <br/>
                                         <button style={{margin:10,backgroundColor:"#00d1cd"}} className="waves-effect waves-light btn" type="submit">Get Rhymes</button>
                                 </form>
                                 {this.state.display && this.displayRhymes()}
-                                <footer className="page-footer" style={{height:"5px",backgroundColor:"#f30067",position:"fixed",left:0,bottom:0,right:0}}>
+                                <footer className="page-footer" style={{textAlign:"center",height:"30px",backgroundColor:"#f30067",position:"fixed",left:0,bottom:0,right:0,paddingTop:"5px"}}>
+                                        <p style={{marginTop:"1px"}}>&copy; Karangejo</p>
                                 </footer>
                         </div>
                 );

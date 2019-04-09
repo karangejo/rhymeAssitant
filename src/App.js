@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import request from 'request';
 
 const baseUrl = 'https://api.datamuse.com/words?rel_rhy=';
+const dictUrl = 'https://en.wiktionary.org/wiki/'
 
 class App extends Component {
         _isMounted = false;
@@ -73,7 +74,7 @@ class App extends Component {
                         });
                         const tenRhymeList = this.getMeRandomElements(rhymeList,10);
                         const retRhymeList = tenRhymeList.map((element,index) => {
-                                return <li key={index}>{element}</li>
+                                return <li key={index}><a href={dictUrl+element} style={{color:"#00d1cd"}}>{element}</a></li>
                         });
 
                         return retRhymeList;
@@ -81,7 +82,9 @@ class App extends Component {
                 }
                
                 const rhymeList = Object.keys(rhymeListObject).map((item,index)=>{
-                        return <li key={item+rhymeListObject[item].word}>{rhymeListObject[item].word}</li>;
+                        return (<li key={item+rhymeListObject[item].word}>
+                                        <a href={dictUrl+rhymeListObject[item].word} style={{color:"#00d1cd"}}>{rhymeListObject[item].word}</a>
+                                </li>);
                 });
 
                 return rhymeList;
@@ -94,7 +97,7 @@ class App extends Component {
                 
                 const tableRowElements = this.state.rhymeObj.map((element,index) => {
                         return(
-                                <td className="card" style={{verticalAlign:"top", backgroundColor:"#eaeaea"}}>
+                                <td className="card" style={{verticalAlign:"top", backgroundColor:"#eaeaea",paddingLeft:"20px"}}>
                                         <ul key={index}>
                                                 {this.makeRhymeList(element)}
                                         </ul>
@@ -104,7 +107,7 @@ class App extends Component {
 
                 const originalSentence = this.state.splitSentence.map((element,index) => {
                         return(
-                                <td className="card" style={{backgroundColor:"#eaeaea"}}>
+                                <td className="card" style={{backgroundColor:"#eaeaea",textAlign:"center"}}>
                                         <h5>{element}</h5>
                                 </td>
                         );
@@ -126,19 +129,25 @@ class App extends Component {
 
         render() {
                 return (
-                        <div style={{backgroundColor:"#eaeaea"}}>
-                        <nav style={{backgroundColor:"#444444",height:100}}>
-                         <div className="nav-wrapper">
-                                 <a style={{fontFamily:"'Bungee Shade',cursive",color:"#00d1cd",paddingLeft:"25px"}} href="/" className="brand-logo">Rhyme Assitant</a>
+                        <div style={{backgroundColor:"#eaeaea",textAlign:"center"}}>
+                        <nav style={{backgroundColor:"#444444",height:130}}>
+                         <div className="nav-wrapper" style={{bottom:"10px",top:"10px"}}>
+                                 <a style={{fontFamily:"'Bungee Shade',cursive",fontSize:"33px",color:"#00d1cd"}} 
+                                         href="/">Rhyme Assitant</a>
                          </div>
                         </nav>
-                        <form style={{textAlign:"center",backgroundColor:"#f30067",margin:0}} className="input-field" action="submit" onSubmit={this.getRhymes} >
-                                        <input type="text" style={{textAlign:"center",width:"70%",paddingLeft:25}} onChange={event =>{this.setState({searchTarget: event.target.value})}} />
+                        <form style={{textAlign:"center",backgroundColor:"#f30067",margin:0}} className="input-field" 
+                                action="submit" onSubmit={this.getRhymes} >
+                                <input type="text" style={{fontFamily:"'Vidaloka', serif",textAlign:"center",width:"70%",paddingLeft:25}} 
+                                        onChange={event =>{this.setState({searchTarget: event.target.value})}} />
                                         <br/>
-                                        <button style={{margin:10,backgroundColor:"#00d1cd"}} className="waves-effect waves-light btn" type="submit">Get Rhymes</button>
+                                        <button style={{fontFamily:"'Vidaloka', serif",margin:10,backgroundColor:"#00d1cd"}} 
+                                                className="waves-effect waves-light btn" type="submit">Get Rhymes</button>
                                 </form>
                                 {this.state.display && this.displayRhymes()}
-                                <footer className="page-footer" style={{textAlign:"center",height:"30px",backgroundColor:"#f30067",position:"fixed",left:0,bottom:0,right:0,paddingTop:"5px"}}>
+                                <footer className="page-footer" 
+                                        style={{textAlign:"center",height:"30px",backgroundColor:"#f30067",
+                                                position:"fixed",left:0,bottom:0,right:0,paddingTop:"5px"}}>
                                         <p style={{marginTop:"1px"}}>&copy; Karangejo</p>
                                 </footer>
                         </div>
